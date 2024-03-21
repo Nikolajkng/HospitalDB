@@ -3,6 +3,14 @@
 # 2) the statements used to populate the tables (as used in section 5
 ###########################################################################################################
 
+DROP TABLE IF EXISTS Patient_Journals;
+DROP TABLE IF EXISTS DoctorPatients;
+DROP TABLE IF EXISTS Doctors;
+DROP TABLE IF EXISTS Patients;
+DROP TABLE IF EXISTS Nurses;
+DROP TABLE IF EXISTS Departments;
+
+
 CREATE Table Patients (
 CPR_no  VARCHAR(11) Primary Key,
 Full_name			 VARCHAR(30),
@@ -13,36 +21,45 @@ Room				INT(3)
 );
 
 CREATE TABLE Departments (
-Department  VARCHAR(20)PRIMARY KEY,
+Department  VARCHAR(20) PRIMARY KEY,
 Dept_floor INT(2)
 );
 
 CREATE TABLE Doctors (
-DoctorID INT(6) PRIMARY KEY,
+DoctorID serial PRIMARY KEY,
 Name varchar(30),
 Salary INT(9),
 Department VARCHAR(20) REFERENCES Departments(Department),
 Head_of_department BIT(1)
 );
 
-CREATE TABLE Patient_Journals (
-CPR_no 	VARCHAR(11) references Patients(CPR_no),
-Diagnosis	VARCHAR(200),
-DateTime_for_diagnosis	DATETIME,
-Doctor_in_charge_of_diagnosis VARCHAR(6) references Doctors(Staff_ID)
-);
-
-CREATE TABLE DoctorPatients (
-Staff_ID VARCHAR(6) references Doctors(Staff_ID),
-CPR_no VARCHAR(11) references Patients(CPR_no)
-);
 
 CREATE TABLE Nurses (
-NurseID VARCHAR(6) PRIMARY KEY,
+NurseID SERIAL PRIMARY KEY,
 Name varchar(30),
 Salary INT(6),
 Department VARCHAR(20) references Departments(Department)
 );
+
+
+CREATE TABLE DoctorPatients (
+DoctorID SERIAL references Doctors(DoctorID),
+CPR_no VARCHAR(11) references Patients(CPR_no)
+);
+
+
+CREATE TABLE Patient_Journals (
+CPR_no VARCHAR(11) references Patients(CPR_no),
+Diagnosis VARCHAR(200),
+DateTime_for_diagnosis DATETIME,
+Doctor_in_charge_of_diagnosis SERIAL references Doctors(DoctorID)
+);
+
+# TEST:
+INSERT INTO Departments VALUES ('Hjerte', 3);
+INSERT INTO Nurses(Name, Salary, Department) VALUES ('testName',1000, 'Hjerte');
+INSERT INTO Nurses(Name, Salary, Department) VALUES ('testName2',1000, 'Hjerte');
+
 
 # Filler info
 INSERT Departments VALUES (

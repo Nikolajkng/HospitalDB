@@ -6,12 +6,23 @@
 
 # Niko
 
-CREATE TRIGGER NurseID_Before_Insert
+DROP TRIGGER NurseID_Before_Insert;
+CREATE TRIGGER NurseID_Before_Insert 
 BEFORE INSERT ON Nurses FOR EACH ROW
 BEGIN 
-	SELECT ID as CONCAT('N','Test');
-	SET NEW.Staff_ID = NEW.ID;
+	SET NurseID = CONCAT('N',NEW.NurseID);
 END;
+
+DROP TRIGGER TimeSlot_Before_Insert;
+CREATE TRIGGER TimeSlot_Before_Insert 
+	BEFORE INSERT ON TimeSlot FOR EACH ROW
+	BEGIN 
+		IF (NEW.StartTime > NEW.EndTime) then signal sqlstate 'HY000'
+			set mysql_errno = 1525, message_text = 'TRIGGER: StartTime cannot be after EndTime'; 
+		END IF;
+	END
+
+INSERT INTO TimeSlot VALUES ('E', 'W', '13:00', '8:00');
 
 
 
