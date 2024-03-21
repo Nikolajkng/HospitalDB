@@ -1,9 +1,14 @@
 ###########################################################################################################
 # 1) the statements used to create the database, its tables and views (as used in section 4 of the report)
-# 2) the statements used to populate the tables (as used in section 5
 ###########################################################################################################
 
-DROP TABLE IF EXISTS Patient_Journals;
+# Creation of database:
+DROP DATABASE IF EXISTS Hospital;
+CREATE DATABASE Hospital;
+USE Hospital;
+
+# Creation of the database tables:
+DROP TABLE IF EXISTS PatientJournals;
 DROP TABLE IF EXISTS DoctorPatients;
 DROP TABLE IF EXISTS Doctors;
 DROP TABLE IF EXISTS Patients;
@@ -11,57 +16,78 @@ DROP TABLE IF EXISTS Nurses;
 DROP TABLE IF EXISTS Departments;
 
 
-CREATE Table Patients (
-CPR_no  VARCHAR(11) Primary Key,
-Full_name			 VARCHAR(30),
-Address				VARCHAR(30),
-Phone_number		INT(8),
-Email				VARCHAR(20),
-Room				INT(3)
-);
-
 CREATE TABLE Departments (
 Department  VARCHAR(20) PRIMARY KEY,
-Dept_floor INT(2)
+DeptFloor 	INT(3) UNIQUE,
+Budget 		INT(10)
 );
 
 CREATE TABLE Doctors (
-DoctorID serial PRIMARY KEY,
-Name varchar(30),
-Salary INT(9),
-Department VARCHAR(20) REFERENCES Departments(Department),
-Head_of_department BIT(1)
+DoctorID SERIAL PRIMARY KEY,
+Name 		VARCHAR(30),
+Sex			VARCHAR(6),
+Salary 		INT(9),
+Department 	VARCHAR(20) REFERENCES Departments(Department),
+HeadOfDept 	BIT(1)
 );
 
-
-CREATE TABLE Nurses (
-NurseID SERIAL PRIMARY KEY,
-Name varchar(30),
-Salary INT(6),
-Department VARCHAR(20) references Departments(Department)
+CREATE Table Patients (
+CPR_no  		VARCHAR(11) PRIMARY KEY,
+FullName		VARCHAR(60),
+Age				INT(3),
+Sex				VARCHAR(6),
+Address			VARCHAR(60),
+PhoneNumber		INT(10),
+Email			VARCHAR(20),
+Room			INT(3)
 );
 
 
 CREATE TABLE DoctorPatients (
-DoctorID SERIAL references Doctors(DoctorID),
-CPR_no VARCHAR(11) references Patients(CPR_no)
+DoctorID 	SERIAL references Doctors(DoctorID),
+CPR_no 		VARCHAR(11) references Patients(CPR_no)
 );
 
 
-CREATE TABLE Patient_Journals (
-CPR_no VARCHAR(11) references Patients(CPR_no),
-Diagnosis VARCHAR(200),
-DateTime_for_diagnosis DATETIME,
-Doctor_in_charge_of_diagnosis SERIAL references Doctors(DoctorID)
+CREATE TABLE Nurses (
+NurseID 	SERIAL PRIMARY KEY,
+Name 		VARCHAR(30),
+Sex 		VARCHAR(6),
+Salary		INT(6),
+Department 	VARCHAR(20) references Departments(Department)
 );
 
-# TEST:
-INSERT INTO Departments VALUES ('Hjerte', 3);
-INSERT INTO Nurses(Name, Salary, Department) VALUES ('testName',1000, 'Hjerte');
-INSERT INTO Nurses(Name, Salary, Department) VALUES ('testName2',1000, 'Hjerte');
+
+CREATE TABLE PatientJournals (
+CPR_no 				VARCHAR(11) references Patients(CPR_no),
+Diagnosis 			VARCHAR(200),
+DiagnosisDate 		DATE,
+DiagnosisTime 		TIME,
+DiagnosedBy		 	SERIAL references Doctors(DoctorID)
+);
 
 
-# Filler info
+# Creation of Views
+DROP VIEW IF EXISTS Doctors_In_HeartAndSkin;
+CREATE VIEW Doctors_In_HeartAndSkin AS
+SELECT DoctorID, Name, Department FROM Doctors
+WHERE Department IN ('Heart', 'Skin');
+
+Select * FROM Doctors_In_HeartAndSkin;
+
+
+DROP VIEW IF EXISTS Patients_with_STD;
+CREATE VIEW Patients_with_STD AS
+SELECT CPR_no, Fullname, Diagnosis FROM (Patients NATURAL JOIN PatientJournals) 
+WHERE Diagnosis IN ('Clamydia');
+
+Select * FROM Patients_with_STD;
+
+
+
+######################################################################
+# 2) the statements used to populate the tables (as used in section 5)
+######################################################################
 INSERT Departments VALUES (
 	'Cardiology', 7),
 	('Sexual Health', 6),
