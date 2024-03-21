@@ -71,22 +71,31 @@ DiagnosedBy		 	SERIAL references Doctors(DoctorID)
 DROP VIEW IF EXISTS Doctors_In_HeartAndSkin;
 DROP VIEW IF EXISTS Male_Doctors_Patients_With_FullNames;
 
+
 CREATE VIEW Doctors_In_HeartAndSkin AS
 SELECT DoctorID, FullName, Department FROM Doctors
 WHERE Department IN ('Cardiology', 'Neurology');
 
 Select * FROM Doctors_In_HeartAndSkin;
 
-Select * From (DoctorPatients NATURAL JOIN Doctors NATURAL JOIN Patients)
-group by DoctorID;
+
 
 CREATE VIEW Male_Doctors_Patients_With_FullNames AS
-SELECT Fullname as doctor, FullName as patient 
-FROM (DoctorPatients NATURAL JOIN Doctors) NATURAL JOIN Patients
-WHERE Doctors.Sex IN ('Male');
+SELECT 
+	Doctors.DoctorID,
+	Doctors.FullName as doctorName, 
+	Patients.CPR_no,
+	Patients.FullName as patientName
+FROM DoctorPatients 
+	INNER JOIN Doctors 
+	ON Doctors.DoctorID = DoctorPatients.DoctorID AND Doctors.Sex = 'Male'
+	INNER JOIN Patients
+	ON Patients.CPR_no = DoctorPatients.CPR_no
+Order by Doctors.DoctorID;
 
-Select * FROM Male_Doctors_Patients_With_FullNames;
 
+SELECT * FROM Male_Doctors_Patients_With_FullNames;
+SELECT DoctorID, FullName FROM Doctors WHERE Sex = 'Male'; # For Comparison
 
 
 ######################################################################
@@ -144,6 +153,7 @@ INSERT INTO Patients values
 	
 INSERT INTO DoctorPatients values
 	(1, '260702-3671'),
+	(1, '010100-1818'), #Problem når doctor har flere patienter
 	(2, '250701-4732'),
 	(3, '240700-7418'),
 	(4, '130301-3666'),
@@ -151,9 +161,9 @@ INSERT INTO DoctorPatients values
 	(6, '010100-1818');
 	
 
-INSERT INTO Patient_Journals values
-	('260702-3671', 'Suffers from Bigusdikus', 2002-07-26 02:54:23, 'XXXFredXXX'),
-	('250701-4732', 'Langelandssyndrom stadie 2', 2001-07-25 00:00:00, 'XXXPeterXXX'),
-	('240700-7418', 'Kaps (lethal)', 2022-09-02 08:00:00, 'XXXtobiXXX'),
-	('130301-3666', 'UX fanatic', 2023-06-06, 'XXXNikoXXX'),
-	('300501-7451', 'Suffers from succes', 2022-09-02 08:00:00, 'XXXChristfofferXXX')
+#INSERT INTO Patient_Journals values
+#	('260702-3671', 'Suffers from Bigusdikus', 2002-07-26 02:54:23, 'XXXFredXXX'),
+#	('250701-4732', 'Langelandssyndrom stadie 2', 2001-07-25 00:00:00, 'XXXPeterXXX'),
+#	('240700-7418', 'Kaps (lethal)', 2022-09-02 08:00:00, 'XXXtobiXXX'),
+#	('130301-3666', 'UX fanatic', 2023-06-06, 'XXXNikoXXX'),
+#	('300501-7451', 'Suffers from succes', 2022-09-02 08:00:00, 'XXXChristfofferXXX')
