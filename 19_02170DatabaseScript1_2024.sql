@@ -44,6 +44,7 @@ Salary INT(6),
 Department VARCHAR(20) references Departments(Department)
 );
 
+# Filler info
 INSERT Departments VALUES (
 	'Cardiology', 7),
 	('Sexual Health', 6),
@@ -52,7 +53,6 @@ INSERT Departments VALUES (
 	('Breast Screening', 18
 );
 
-# Filler info
 INSERT Doctors Values 
 	('Tobias Martinsen', 694202, 'Sexual Health', 1),
 	('Peter Stensig', 6789096, 'Cardiology'),
