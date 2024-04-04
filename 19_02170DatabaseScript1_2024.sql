@@ -26,8 +26,9 @@ DoctorID 	SERIAL PRIMARY KEY,
 FullName 	VARCHAR(90),
 Sex			VARCHAR(6),
 Salary 		INT(10),
-Department 	VARCHAR(20) REFERENCES Departments(Department),
-HeadOfDept 	BIT(1)
+Department 	VARCHAR(20),
+HeadOfDept 	BIT(1),
+FOREIGN KEY (Department) REFERENCES Departments(Department) ON DELETE CASCADE
 );
 
 CREATE Table Patients (
@@ -39,20 +40,17 @@ Address			VARCHAR(60),
 PhoneNumber		INT(10),
 Email			VARCHAR(60),
 Room			INT(3),
-AssignedDoctor  BIGINT UNSIGNED references Doctors(DoctorID)
+AssignedDoctor  BIGINT UNSIGNED,
+FOREIGN KEY (AssignedDoctor) references Doctors(DoctorID) ON DELETE SET NULL
 );
 
-
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 CREATE TABLE Nurses (
 NurseID 	SERIAL PRIMARY KEY,
 FullName 	VARCHAR(90),
 Sex 		VARCHAR(6),
 Salary		INT(10),
-Department 	VARCHAR(20) REFERENCES Departments(Department)
+Department 	VARCHAR(20),
+FOREIGN KEY (Department) REFERENCES Departments(Department) ON DELETE SET NULL
 );
 
 
@@ -149,23 +147,11 @@ INSERT INTO Patients values
 	('300501-7451', 'Thor Skipper', 23, 'Male','Nybrogaard kollegie 69a', 51924474, 's224817@student.dtu.dk', 1, 5),
 	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3, 2);
 
-<<<<<<< Updated upstream
+
 INSERT INTO PatientJournals values
 	('260702-3671', 'Suffers from Bigusdikus', '2002-07-26', '02:54:23', 3),
 	('250701-4732', 'Langelandssyndrom stadie 2', '2001-07-25', '00:00:00', 2),
 	('240700-7418', 'Kaps (lethal)', '2022-09-02', '08:00:00', 1),
 	('130301-3666', 'UX fanatic', '2023-06-06', '08:00:00', 4),
 	('300501-7451', 'Suffers from succes', '2022-09-02', '08:00:00', 5)
-=======
 
-INSERT INTO Patient_Journals values
-	('260702-3671', 'Suffers from Bigusdikus', 2002-07-26, 02:54:00, 3),
-	('250701-4732', 'Langelandssyndrom stadie 2', 2001-07-25, 12:00:00, 2),
-	('240700-7418', 'Kaps (lethal)', 2022-09-02, 08:00:00, 1),
-	('130301-3666', 'UX fanatic', 2023-06-06, 09:00:00, 4),
-	('300501-7451', 'Suffers from succes', 2022-09-02, 08:00:00, 5);
-
-select * from Patient_Journals;
-	
-	
->>>>>>> Stashed changes
