@@ -9,7 +9,6 @@ USE Hospital;
 
 # Creation of the database tables:
 DROP TABLE IF EXISTS PatientJournals;
-DROP TABLE IF EXISTS DoctorPatients;
 DROP TABLE IF EXISTS Doctors;
 DROP TABLE IF EXISTS Patients;
 DROP TABLE IF EXISTS Nurses;
@@ -39,14 +38,15 @@ Sex				VARCHAR(6),
 Address			VARCHAR(60),
 PhoneNumber		INT(10),
 Email			VARCHAR(60),
-Room			INT(3)
+Room			INT(3),
+AssignedDoctor  SERIAL references Doctors(DoctorID)
 );
 
 
-CREATE TABLE DoctorPatients (
-DoctorID 	SERIAL references Doctors(DoctorID),
-CPR_no 		VARCHAR(11) references Patients(CPR_no)
-);
+# CREATE TABLE DoctorPatients (
+# DoctorID 	SERIAL references Doctors(DoctorID),
+# CPR_no 		VARCHAR(11) references Patients(CPR_no)
+# );
 
 
 CREATE TABLE Nurses (
@@ -86,11 +86,9 @@ SELECT
 	Doctors.FullName as doctorName, 
 	Patients.CPR_no,
 	Patients.FullName as patientName
-FROM DoctorPatients 
-	INNER JOIN Doctors 
-	ON Doctors.DoctorID = DoctorPatients.DoctorID AND Doctors.Sex = 'Male'
+FROM Doctors
 	INNER JOIN Patients
-	ON Patients.CPR_no = DoctorPatients.CPR_no
+	ON Patients.AssignedDoctor = Doctors.DoctorID
 Order by Doctors.DoctorID;
 
 
@@ -143,24 +141,13 @@ INSERT INTO Nurses(FullName, Sex, Salary, Department) values
 
 
 INSERT INTO Patients values
-	('260702-3671', 'Christian Vedel Pedersen', 22, 'Male', 'Nybrogaard kollegie 69a', 30220813, 's224810@student.dtu.dk', 5),
-	('250701-4732', 'Katinka Spangtoft', 23, 'Female','P.O. Pedersen-kollegiet' ,61341289, 's224805@student.dtu.dk', 9),
-	('240700-7418', 'Marilouise Arbøl', 24, 'Female', 'Kampsax kollegiet 521', 93990618,'s214401@student.dtu.dk', 10),
-	('130301-3666', 'Michelle Mai', 23, 'Female', 'NoClue avenue 17', 52690290, 's224771@student.dtu.dk', 4),
-	('300501-7451', 'Thor Skipper', 23, 'Male','Nybrogaard kollegie 69a', 51924474, 's224817@student.dtu.dk', 1),
-	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3);
+	('260702-3671', 'Christian Vedel Pedersen', 22, 'Male', 'Nybrogaard kollegie 69a', 30220813, 's224810@student.dtu.dk', 5, 1),
+	('250701-4732', 'Katinka Spangtoft', 23, 'Female','P.O. Pedersen-kollegiet' ,61341289, 's224805@student.dtu.dk', 9, 2),
+	('240700-7418', 'Marilouise Arbøl', 24, 'Female', 'Kampsax kollegiet 521', 93990618,'s214401@student.dtu.dk', 10, 3),
+	('130301-3666', 'Michelle Mai', 23, 'Female', 'NoClue avenue 17', 52690290, 's224771@student.dtu.dk', 4, 4),
+	('300501-7451', 'Thor Skipper', 23, 'Male','Nybrogaard kollegie 69a', 51924474, 's224817@student.dtu.dk', 1, 5),
+	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3, 6);
 	
-	
-INSERT INTO DoctorPatients values 
-	(1, '260702-3671'),
-	(2, '250701-4732'),
-	(3, '240700-7418'),
-	(4, '130301-3666'),
-	(5, '300501-7451'),
-	(6, '010100-1818');
-	
-INSERT INTO DoctorPatients VALUES (1, '010100-1818'); #Problem når doctor har flere patienter
-
 
 #INSERT INTO Patient_Journals values
 #	('260702-3671', 'Suffers from Bigusdikus', 2002-07-26 02:54:23, 'XXXFredXXX'),
