@@ -39,14 +39,8 @@ Address			VARCHAR(60),
 PhoneNumber		INT(10),
 Email			VARCHAR(60),
 Room			INT(3),
-AssignedDoctor  SERIAL references Doctors(DoctorID)
+AssignedDoctor  BIGINT UNSIGNED references Doctors(DoctorID)
 );
-
-
-# CREATE TABLE DoctorPatients (
-# DoctorID 	SERIAL references Doctors(DoctorID),
-# CPR_no 		VARCHAR(11) references Patients(CPR_no)
-# );
 
 
 CREATE TABLE Nurses (
@@ -59,12 +53,14 @@ Department 	VARCHAR(20) REFERENCES Departments(Department)
 
 
 CREATE TABLE PatientJournals (
-	CPR_no 				VARCHAR(11) references Patients(CPR_no),
+	CPR_no 				VARCHAR(11),
 	Diagnosis 			VARCHAR(200),
 	DiagnosisDate 		DATE,
 	DiagnosisTime 		TIME,
-	DiagnosedBy		 	SERIAL references Doctors(DoctorID),
-	primary key(CPR_no, Diagnosis, DiagnosisDate)
+	DiagnosedBy		 	SERIAL,
+	primary key(CPR_no, Diagnosis, DiagnosisDate),
+	foreign key(CPR_no) references Patients(CPR_no),
+	foreign key(DiagnosedBy) references Doctors(DoctorID)
 );
 
 
@@ -150,9 +146,9 @@ INSERT INTO Patients values
 	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3, 2);
 	
 
-#INSERT INTO Patient_Journals values
-#	('260702-3671', 'Suffers from Bigusdikus', 2002-07-26 02:54:23, 'XXXFredXXX'),
-#	('250701-4732', 'Langelandssyndrom stadie 2', 2001-07-25 00:00:00, 'XXXPeterXXX'),
-#	('240700-7418', 'Kaps (lethal)', 2022-09-02 08:00:00, 'XXXtobiXXX'),
-#	('130301-3666', 'UX fanatic', 2023-06-06, 'XXXNikoXXX'),
-#	('300501-7451', 'Suffers from succes', 2022-09-02 08:00:00, 'XXXChristfofferXXX')
+INSERT INTO PatientJournals values
+	('260702-3671', 'Suffers from Bigusdikus', '2002-07-26', '02:54:23', 3),
+	('250701-4732', 'Langelandssyndrom stadie 2', '2001-07-25', '00:00:00', 2),
+	('240700-7418', 'Kaps (lethal)', '2022-09-02', '08:00:00', 1),
+	('130301-3666', 'UX fanatic', '2023-06-06', '08:00:00', 4),
+	('300501-7451', 'Suffers from succes', '2022-09-02', '08:00:00', 5)
