@@ -69,6 +69,7 @@ CREATE TABLE PatientJournals (
 # Creation of Views (Only makes sense after populating tables in the next step below)
 DROP VIEW IF EXISTS Doctors_In_HeartAndSkin;
 DROP VIEW IF EXISTS Male_Doctors_Patients_With_FullNames;
+DROP view iF EXISTS Number_of_Nurses_Per_Department;
 
 
 CREATE VIEW Doctors_In_HeartAndSkin AS
@@ -92,6 +93,11 @@ Order by Doctors.DoctorID;
 
 
 SELECT * FROM Male_Doctors_Patients_With_FullNames;
+
+CREATE VIEW Number_of_Nurses_Per_Department AS
+SELECT Department, COUNT(*) as numOfNurses FROM Departments natural join Nurses group by Department;
+SELECT * FROM Number_of_Nurses_Per_Department;
+
 SELECT DoctorID, FullName FROM Doctors WHERE Sex = 'Male'; # For Comparison
 
 
@@ -175,3 +181,4 @@ INSERT INTO PatientJournals values
 	('800000-8000', 'Mathmatics syndrome', '2013-06-01', '03:00:00', 4), 
 	('900000-9000', 'Democracy og Fake news syndrome', '2018-06-01', '02:00:00', 5), 
 	('905000-9050', 'Alzheimers og Ligma', '2019-05-01', '02:00:00', 6);
+
