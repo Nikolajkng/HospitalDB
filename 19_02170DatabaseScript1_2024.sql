@@ -151,15 +151,16 @@ INSERT INTO Patients values
 	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3);
 	
 	
-INSERT INTO DoctorPatients values
+INSERT INTO DoctorPatients values 
 	(1, '260702-3671'),
-	(1, '010100-1818'), #Problem når doctor har flere patienter
 	(2, '250701-4732'),
 	(3, '240700-7418'),
 	(4, '130301-3666'),
 	(5, '300501-7451'),
 	(6, '010100-1818');
 	
+INSERT INTO DoctorPatients VALUES (1, '010100-1818'); #Problem når doctor har flere patienter
+
 
 #INSERT INTO Patient_Journals values
 #	('260702-3671', 'Suffers from Bigusdikus', 2002-07-26 02:54:23, 'XXXFredXXX'),
