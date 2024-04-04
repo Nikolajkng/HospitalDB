@@ -45,7 +45,7 @@ UPDATE Doctors SET Salary =
 
 UPDATE Nurses SET Department = 'Cosmetic Surgery' WHERE (Nurses.Department IS NULL)
 
-SELECT MIN(numOfNurses) from Number_of_Nurses_Per_Department;
+#ELECT MIN(numOfNurses) from Number_of_Nurses_Per_Department;'
 
 
 DELETE FROM Nurses WHERE Department = "Cardiology" AND Salary > 490000
