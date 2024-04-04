@@ -36,6 +36,13 @@ UPDATE Doctors SET Salary =
 	END WHERE HeadOfDept = 1; 
 
 
+#########################################################################################################
+# 1) the queries made (as in section 6)
+#########################################################################################################
+# Give 3 examples of typical SQL query statements using joins, group by, and
+# set operations like UNION and IN. For each query explain informally what
+# it asks about. Show also the output of the queries for the database
+# instance established in step 5
 
 
 
