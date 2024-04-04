@@ -120,8 +120,8 @@ INSERT INTO Doctors(FullName,Sex,Salary,Department,HeadOfDept) Values
 	('Peter Stensig', 'Male', 76000*12, 'Cardiology',1),
 	('Frederik Udby', 'Male', 50000*12, 'Fertility',1),
 	('Nikolaj Nguyen', 'Male', 58000*12, 'Dermatology',1),
-	('Christoffer Frost', 'Male', 80000*12, 'Cosmetic Surgery',1),
-	('Tea Mortensen', 'Female', 85000*12, 'Neurology',1),
+	('Christoffer Frost', 'Male', 30000*12, 'Cosmetic Surgery',1),
+	('Tea Mortensen', 'Female', 65000*12, 'Neurology',1),
 	('Pernille Vandsig', 'Female', 75000*12, 'Oncology',1),
 	('Fie Indby', 'Female', 52000*12, 'Pharmacy',0), 
 	('Nikoline Nissen', 'Female', 66000*12, 'Pathology',0),
@@ -147,7 +147,7 @@ INSERT INTO Patients values
 	('240700-7418', 'Marilouise Arbøl', 24, 'Female', 'Kampsax kollegiet 521', 93990618,'s214401@student.dtu.dk', 10, 3),
 	('130301-3666', 'Michelle Mai', 23, 'Female', 'NoClue avenue 17', 52690290, 's224771@student.dtu.dk', 4, 4),
 	('300501-7451', 'Thor Skipper', 23, 'Male','Nybrogaard kollegie 69a', 51924474, 's224817@student.dtu.dk', 1, 5),
-	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3, 6);
+	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3, 2);
 	
 
 #INSERT INTO Patient_Journals values

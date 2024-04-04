@@ -3,15 +3,26 @@
 # 2) the statements used to create and apply functions, procedures, and triggers (as in section 7), and
 # 3) the delete/update statements used to change the tables (as in section 8).
 #########################################################################################################
+USE Hospital;
 
-# Niko (ikke færdig)
+Delimiter //
 
-DROP TRIGGER NurseID_Before_Insert;
-CREATE TRIGGER NurseID_Before_Insert 
-BEFORE INSERT ON Nurses FOR EACH ROW
+CREATE FUNCTION numOfPatients (DoctorID int) RETURNS int
 BEGIN 
-	SET NurseID = CONCAT('N',NEW.NurseID);
-END;
+	DECLARE vNumOfPatients int;
+	SELECT COUNT(*) into vNumOfPatients from Patients
+	WHERE Patients.AssignedDoctor = DoctorID;
+	RETURN vNumOfPatients;
+END; //
+
+Delimiter ;
+
+SELECT FullName, numOfPatients(DoctorID) FROM Doctors
+
+
+
+
+
 
 
 
