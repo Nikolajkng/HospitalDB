@@ -25,9 +25,6 @@ SELECT FullName, numOfPatients(DoctorID) FROM Doctors
 
 
 
-SELECT * FROM Doctors
-
-
 UPDATE Doctors SET Salary =
 	CASE 
 	WHEN Sex = "Male"
@@ -35,6 +32,16 @@ UPDATE Doctors SET Salary =
 	ELSE Salary * 1.03
 	END WHERE HeadOfDept = 1; 
 
+UPDATE Nurses SET Department = 'Cosmetic Surgery' WHERE (Nurses.Department IS NULL)
+
+SELECT MIN(numOfNurses) from Number_of_Nurses_Per_Department;
+
+
+DELETE FROM Nurses WHERE Department = "Cardiology" AND Salary > 490000
+
+
+DELETE FROM Departments WHERE Department = "Pathology"
+ 
 
 #########################################################################################################
 # 1) the queries made (as in section 6)

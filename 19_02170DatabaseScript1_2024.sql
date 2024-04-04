@@ -61,8 +61,8 @@ CREATE TABLE PatientJournals (
 	DiagnosisTime 		TIME,
 	DiagnosedBy		 	BIGINT UNSIGNED,
 	primary key(CPR_no, Diagnosis, DiagnosisDate),
-	foreign key(CPR_no) references Patients(CPR_no),
-	foreign key(DiagnosedBy) references Doctors(DoctorID)
+	foreign key(CPR_no) references Patients(CPR_no) ON DELETE CASCADE,
+	foreign key(DiagnosedBy) references Doctors(DoctorID) ON DELETE SET NULL 
 );
 
 
@@ -135,8 +135,12 @@ INSERT INTO Nurses(FullName, Sex, Salary, Department) values
 	('Albert Einstein','Male', 42000*12, 'Neurology'),
 	('Chadwick Boseman','Male', 40000*12, 'Oncology'),
 	('Martin Malmsten','Male', 40000*12, 'Pharmacy'),
-	('Corona Lockdown','Male', 40000*12, 'Pathology'),	
-	('Bruce Banner','Male', 32000*12, 'Radiology');
+	('Corona Lockdown','Male', 40000*12, 'Pathology'),
+	('Lady Gaga','Female', 42000*12, 'Cardiology'),
+	('Peter Parker','Male', 40000*12, 'Cardiology'),
+	('Miles Moralis','Male', 40000*12, NULL),
+	('Bard Bard','Male', 40000*12, NULL),
+	('Bruce Banner','Male', 32000*12, 'Fertility');
 
 
 INSERT INTO Patients values
