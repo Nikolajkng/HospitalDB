@@ -25,6 +25,16 @@ SELECT FullName, numOfPatients(DoctorID) FROM Doctors
 
 
 
+SELECT * FROM Doctors
+
+
+UPDATE Doctors SET Salary =
+	CASE 
+	WHEN Sex = "Male"
+	THEN Salary * 1.05
+	ELSE Salary * 1.03
+	END WHERE HeadOfDept = 1; 
+
 
 
 
