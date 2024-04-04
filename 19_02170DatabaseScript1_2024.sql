@@ -78,7 +78,6 @@ WHERE Department IN ('Cardiology', 'Neurology');
 Select * FROM Doctors_In_HeartAndSkin;
 
 
-
 CREATE VIEW Male_Doctors_Patients_With_FullNames AS
 SELECT 
 	Doctors.DoctorID,
@@ -88,6 +87,7 @@ SELECT
 FROM Doctors
 	INNER JOIN Patients
 	ON Patients.AssignedDoctor = Doctors.DoctorID
+	WHERE Doctors.Sex = 'Male'
 Order by Doctors.DoctorID;
 
 
