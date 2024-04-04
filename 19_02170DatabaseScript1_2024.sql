@@ -59,7 +59,7 @@ CREATE TABLE PatientJournals (
 	Diagnosis 			VARCHAR(200),
 	DiagnosisDate 		DATE,
 	DiagnosisTime 		TIME,
-	DiagnosedBy		 	SERIAL,
+	DiagnosedBy		 	BIGINT UNSIGNED,
 	primary key(CPR_no, Diagnosis, DiagnosisDate),
 	foreign key(CPR_no) references Patients(CPR_no),
 	foreign key(DiagnosedBy) references Doctors(DoctorID)
@@ -163,5 +163,15 @@ INSERT INTO PatientJournals values
 	('250701-4732', 'Langelandssyndrom stadie 2', '2001-07-25', '00:00:00', 2),
 	('240700-7418', 'Kaps (lethal)', '2022-09-02', '08:00:00', 1),
 	('130301-3666', 'UX fanatic', '2023-06-06', '08:00:00', 4),
-	('300501-7451', 'Suffers from succes', '2022-09-02', '08:00:00', 5)
-
+	('300501-7451', 'Communism og Suffers from succes', '2022-09-02', '08:00:00', 5),
+	('010100-1818', 'Death', '2022-05-01', '09:00:00', 6), 
+	('100000-1000', 'Communism', '2011-05-01', '10:00:00', 7), 
+	('200000-2000', 'Communism', '2022-05-01', '09:00:00', 8), 
+	('300000-3000', 'Nazism', '2016-07-01', '08:00:00', 9), 
+	('400000-4000', 'Democracy', '2013-06-01', '07:00:00', 10), 
+	('500000-5000', 'Insanity', '2013-06-01', '06:00:00', 3), 
+	('600000-6000', 'Mink og sms', '2016-06-01', '05:00:00', 2), 
+	('700000-7000', 'Tubercoluse', '2013-06-01', '04:00:00', 1), 
+	('800000-8000', 'Mathmatics syndrome', '2013-06-01', '03:00:00', 4), 
+	('900000-9000', 'Democracy og Fake news syndrome', '2018-06-01', '02:00:00', 5), 
+	('905000-9050', 'Alzheimers og Ligma', '2019-05-01', '02:00:00', 6);
