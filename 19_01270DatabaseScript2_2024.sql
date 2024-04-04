@@ -5,6 +5,8 @@
 #########################################################################################################
 USE Hospital;
 
+DROP Function IF EXISTS numOfPatients;
+
 Delimiter //
 
 CREATE FUNCTION numOfPatients (DoctorID int) RETURNS int
@@ -17,12 +19,21 @@ END; //
 
 Delimiter ;
 
-SELECT FullName, numOfPatients(DoctorID) FROM Doctors
+SELECT FullName, numOfPatients(DoctorID) FROM Doctors;
 
+DROP PROCEDURE IF EXISTS doctorsSalaryInDepartment;
 
+delimiter //
 
+create procedure doctorsSalaryInDepartment (IN Department  VARCHAR(40), OUT salarySum int)
+begin
+	SELECT SUM(Doctors.Salary) into salarySum FROM Doctors WHERE Doctors.Department = Department ;
+end //
 
+delimiter ;
 
+CALL doctorsSalaryInDepartment('Cardiology', @sumOfSalareis);
+SELECT @sumOfSalareis;
 
 
 UPDATE Doctors SET Salary =
