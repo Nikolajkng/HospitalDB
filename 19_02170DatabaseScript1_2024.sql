@@ -145,8 +145,18 @@ INSERT INTO Patients values
 	('240700-7418', 'Marilouise Arbøl', 24, 'Female', 'Kampsax kollegiet 521', 93990618,'s214401@student.dtu.dk', 10, 3),
 	('130301-3666', 'Michelle Mai', 23, 'Female', 'NoClue avenue 17', 52690290, 's224771@student.dtu.dk', 4, 4),
 	('300501-7451', 'Thor Skipper', 23, 'Male','Nybrogaard kollegie 69a', 51924474, 's224817@student.dtu.dk', 1, 5),
-	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3, 2);
-
+	('010100-1818', 'Franken Stein', 106,'Male', 'Basement', 66666666, 'MaryShelley@darkmail.com', 3, 2), 
+	('100000-1000', 'Vladimir Putin', 71,'Male', 'Moskva', 11111111, 'Putin@mail.com', 6, 6), 
+	('200000-2000', 'Joseph Stalin', 54,'Male', 'Moskva', 22222222, 'Stalin@mail.com', 7, 6), 
+	('300000-3000', 'Adolf Hitler', 45,'Male', 'Tyskland', 33333333, 'Hitler@mail.com', 8, 7), 
+	('400000-4000', 'Barrack Obama',62 ,'Male', 'USA', 44444444, 'Obama@mail.com', 11, 7), 
+	('500000-5000', 'Hussein Gaddafi', 57,'Male', 'Libien', 55555555, 'Gaddafi@mail.com', 12, 8), 
+	('600000-6000', 'Mette Mink', 46 ,'Female', 'Danmark', 77777777, 'Mette@mail.com', 13, 8), 
+	('700000-7000', 'Charles Darwin', 112,'Male', 'England', 88888888, 'Darwin@mail.com', 14, 9), 
+	('800000-8000', 'Michael Pedersen', 48,'Male', 'Danmark', 12344321, 'Michael@mail.com', 15, 9), 
+	('900000-9000', 'Donald Trump', 77,'Male', 'USA', 43211234, 'Trump@mail.com', 16, 10), 
+	('905000-9050', 'Joe Biden', 81,'Male', 'USA', 87654321, 'Biden@mail.com', 17, 10);
+	
 
 INSERT INTO PatientJournals values
 	('260702-3671', 'Suffers from Bigusdikus', '2002-07-26', '02:54:23', 3),
