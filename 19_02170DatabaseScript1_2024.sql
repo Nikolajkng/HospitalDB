@@ -59,11 +59,12 @@ Department 	VARCHAR(20) REFERENCES Departments(Department)
 
 
 CREATE TABLE PatientJournals (
-CPR_no 				VARCHAR(11) references Patients(CPR_no),
-Diagnosis 			VARCHAR(200),
-DiagnosisDate 		DATE,
-DiagnosisTime 		TIME,
-DiagnosedBy		 	SERIAL references Doctors(DoctorID)
+	CPR_no 				VARCHAR(11) references Patients(CPR_no),
+	Diagnosis 			VARCHAR(200),
+	DiagnosisDate 		DATE,
+	DiagnosisTime 		TIME,
+	DiagnosedBy		 	SERIAL references Doctors(DoctorID),
+	primary key(CPR_no, Diagnosis, DiagnosisDate)
 );
 
 
