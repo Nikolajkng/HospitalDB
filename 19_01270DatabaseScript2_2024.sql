@@ -72,6 +72,7 @@ SELECT @sumOfSalareis;
 ########################################################################################################
 # 3) the delete/update statements used to change the tables (as in section 8).
 ########################################################################################################
+
 UPDATE Doctors SET Salary =
 	CASE 
 	WHEN Sex = "Male"
