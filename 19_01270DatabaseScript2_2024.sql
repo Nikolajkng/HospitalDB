@@ -44,7 +44,10 @@ UPDATE Doctors SET Salary =
 # it asks about. Show also the output of the queries for the database
 # instance established in step 5
 
+# Query using set operation: UNION
+(SELECT Fullname, CPR_no, Diagnosis FROM PatientJournals NATURAL JOIN Patients WHERE STRCMP(Diagnosis, 'Communism') = 0) #Exact equal
+UNION
+(SELECT Fullname, CPR_no, Diagnosis FROM PatientJournals NATURAL JOIN Patients WHERE Diagnosis LIKE '%Alzheimers%'); #Contains
 
-
-
+# Query using set operation: IN
 
