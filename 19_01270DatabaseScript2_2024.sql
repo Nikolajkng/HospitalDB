@@ -31,6 +31,8 @@ IN (SELECT Diagnosis FROM PatientJournals
 #########################################################################################################
 # 2) the statements used to create and apply functions, procedures, and triggers (as in section 7)
 #########################################################################################################
+
+# Function
 DROP Function IF EXISTS numOfPatients;
 
 Delimiter //
@@ -47,6 +49,8 @@ Delimiter ;
 
 SELECT FullName, numOfPatients(DoctorID) FROM Doctors;
 
+
+# Procedure
 DROP PROCEDURE IF EXISTS doctorsSalaryInDepartment;
 
 delimiter //
@@ -61,6 +65,8 @@ delimiter ;
 CALL doctorsSalaryInDepartment('Cardiology', @sumOfSalareis);
 SELECT @sumOfSalareis;
 
+
+# Trigger
 
 
 ########################################################################################################
