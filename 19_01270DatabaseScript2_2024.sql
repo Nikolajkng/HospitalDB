@@ -1,10 +1,36 @@
-#########################################################################################################
-# 1) the queries made (as in section 6)
-# 2) the statements used to create and apply functions, procedures, and triggers (as in section 7), and
-# 3) the delete/update statements used to change the tables (as in section 8).
-#########################################################################################################
 USE Hospital;
 
+
+#########################################################################################################
+# 1) the queries made (as in section 6).
+# Give three examples of typical SQL query statements using joins, group by,
+# and set operations like UNION and IN. For each query explain informally
+# what it asks about. Show also the output of the queries.
+#########################################################################################################
+
+# Query using: JOIN & GROUP BY
+SELECT Patients.FullName , Doctors.FullName as AssignedDoctor, Doctors.Department 
+FROM Patients Join Doctors
+WHERE Patients.AssignedDoctor = Doctors.DoctorID
+Group By Patients.FullName;
+
+
+# Query using set operation: UNION
+(SELECT Fullname, CPR_no, Diagnosis FROM PatientJournals NATURAL JOIN Patients WHERE STRCMP(Diagnosis, 'Communism') = 0) #Exact equal
+UNION
+(SELECT Fullname, CPR_no, Diagnosis FROM PatientJournals NATURAL JOIN Patients WHERE Diagnosis LIKE '%Alzheimers%'); #Contains
+
+
+# Query using set operation: IN
+SELECT DISTINCT Diagnosis FROM PatientJournals
+WHERE DiagnosedBy = 4 AND Diagnosis
+IN (SELECT Diagnosis FROM PatientJournals 
+	WHERE DiagnosisTime = '08:00:00');
+
+
+#########################################################################################################
+# 2) the statements used to create and apply functions, procedures, and triggers (as in section 7)
+#########################################################################################################
 DROP Function IF EXISTS numOfPatients;
 
 Delimiter //
@@ -36,6 +62,10 @@ CALL doctorsSalaryInDepartment('Cardiology', @sumOfSalareis);
 SELECT @sumOfSalareis;
 
 
+
+########################################################################################################
+# 3) the delete/update statements used to change the tables (as in section 8).
+########################################################################################################
 UPDATE Doctors SET Salary =
 	CASE 
 	WHEN Sex = "Male"
@@ -55,18 +85,15 @@ DELETE FROM Nurses WHERE Department = "Cardiology" AND Salary > 490000
 DELETE FROM Departments WHERE Department = "Pathology"
  
 
-#########################################################################################################
-# 1) the queries made (as in section 6)
-#########################################################################################################
-# Give 3 examples of typical SQL query statements using joins, group by, and
-# set operations like UNION and IN. For each query explain informally what
-# it asks about. Show also the output of the queries for the database
-# instance established in step 5
 
-# Query using set operation: UNION
-(SELECT Fullname, CPR_no, Diagnosis FROM PatientJournals NATURAL JOIN Patients WHERE STRCMP(Diagnosis, 'Communism') = 0) #Exact equal
-UNION
-(SELECT Fullname, CPR_no, Diagnosis FROM PatientJournals NATURAL JOIN Patients WHERE Diagnosis LIKE '%Alzheimers%'); #Contains
 
-# Query using set operation: IN
+
+
+
+
+
+
+
+
+
 
