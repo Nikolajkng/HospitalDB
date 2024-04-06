@@ -5,6 +5,8 @@
 #########################################################################################################
 USE Hospital;
 
+DROP Function IF EXISTS numOfPatients;
+
 Delimiter //
 
 CREATE FUNCTION numOfPatients (DoctorID int) RETURNS int
@@ -17,15 +19,21 @@ END; //
 
 Delimiter ;
 
-SELECT FullName, numOfPatients(DoctorID) FROM Doctors
+SELECT FullName, numOfPatients(DoctorID) FROM Doctors;
 
+DROP PROCEDURE IF EXISTS doctorsSalaryInDepartment;
 
+delimiter //
 
+create procedure doctorsSalaryInDepartment (IN Department  VARCHAR(40), OUT salarySum int)
+begin
+	SELECT SUM(Doctors.Salary) into salarySum FROM Doctors WHERE Doctors.Department = Department ;
+end //
 
+delimiter ;
 
-
-
-SELECT * FROM Doctors
+CALL doctorsSalaryInDepartment('Cardiology', @sumOfSalareis);
+SELECT @sumOfSalareis;
 
 
 UPDATE Doctors SET Salary =
@@ -35,6 +43,17 @@ UPDATE Doctors SET Salary =
 	ELSE Salary * 1.03
 	END WHERE HeadOfDept = 1; 
 
+UPDATE Nurses SET Department = 
+	(SELECT Department FROM Number_of_Nurses_Per_Department 
+	WHERE numOfNurses = (SELECT MIN(numOfNurses) from Number_of_Nurses_Per_Department) LIMIT 1) 
+	WHERE (Nurses.Department IS NULL)
+
+
+DELETE FROM Nurses WHERE Department = "Cardiology" AND Salary > 490000
+
+
+DELETE FROM Departments WHERE Department = "Pathology"
+ 
 
 #########################################################################################################
 # 1) the queries made (as in section 6)
