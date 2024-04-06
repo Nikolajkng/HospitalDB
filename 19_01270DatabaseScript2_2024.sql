@@ -82,13 +82,13 @@ UPDATE Doctors SET Salary =
 UPDATE Nurses SET Department = 
 	(SELECT Department FROM Number_of_Nurses_Per_Department 
 	WHERE numOfNurses = (SELECT MIN(numOfNurses) from Number_of_Nurses_Per_Department) LIMIT 1) 
-	WHERE (Nurses.Department IS NULL)
+	WHERE (Nurses.Department IS NULL);
 
 
-DELETE FROM Nurses WHERE Department = "Cardiology" AND Salary > 490000
+DELETE FROM Nurses WHERE Department = "Cardiology" AND Salary > 490000;
 
 
-DELETE FROM Departments WHERE Department = "Pathology"
+DELETE FROM Departments WHERE Department = "Pathology";
  
 
 
