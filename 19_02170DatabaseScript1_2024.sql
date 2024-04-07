@@ -7,6 +7,7 @@ DROP DATABASE IF EXISTS Hospital;
 CREATE DATABASE Hospital;
 USE Hospital;
 
+
 # Creation of the database tables:
 DROP TABLE IF EXISTS PatientJournals;
 DROP TABLE IF EXISTS Doctors;
@@ -16,41 +17,44 @@ DROP TABLE IF EXISTS Departments;
 
 
 CREATE TABLE Departments (
-Department  VARCHAR(40) PRIMARY KEY,
-DeptFloor 	INT(3) UNIQUE,
-Budget 		INT(10)
+	Department  VARCHAR(40) PRIMARY KEY,
+	DeptFloor 	INT(3) UNIQUE,
+	Budget 		INT(10)
 );
+
 
 CREATE TABLE Doctors (
-DoctorID 	SERIAL PRIMARY KEY,
-FullName 	VARCHAR(90),
-Sex			VARCHAR(6),
-Salary 		INT(10),
-Department 	VARCHAR(20),
-HeadOfDept 	BIT(1),
-FOREIGN KEY (Department) REFERENCES Departments(Department) ON DELETE CASCADE
+	DoctorID 	SERIAL PRIMARY KEY,
+	FullName 	VARCHAR(90),
+	Sex			VARCHAR(6),
+	Salary 		INT(10),
+	Department 	VARCHAR(20),
+	HeadOfDept 	BIT(1),
+	FOREIGN KEY (Department) REFERENCES Departments(Department) ON DELETE CASCADE
 );
+
 
 CREATE Table Patients (
-CPR_no  		VARCHAR(11) PRIMARY KEY,
-FullName		VARCHAR(90),
-Age				INT(3),
-Sex				VARCHAR(6),
-Address			VARCHAR(60),
-PhoneNumber		INT(10),
-Email			VARCHAR(60),
-Room			INT(3),
-AssignedDoctor  BIGINT UNSIGNED,
-FOREIGN KEY (AssignedDoctor) references Doctors(DoctorID) ON DELETE SET NULL
+	CPR_no  		VARCHAR(11) PRIMARY KEY,
+	FullName		VARCHAR(90),
+	Age				INT(3),
+	Sex				VARCHAR(6),
+	Address			VARCHAR(60),
+	PhoneNumber		INT(10),
+	Email			VARCHAR(60),
+	Room			INT(3),
+	AssignedDoctor  BIGINT UNSIGNED,
+	FOREIGN KEY (AssignedDoctor) REFERENCES Doctors(DoctorID) ON DELETE SET NULL
 );
 
+
 CREATE TABLE Nurses (
-NurseID 	SERIAL PRIMARY KEY,
-FullName 	VARCHAR(90),
-Sex 		VARCHAR(6),
-Salary		INT(10),
-Department 	VARCHAR(20),
-FOREIGN KEY (Department) REFERENCES Departments(Department) ON DELETE SET NULL
+	NurseID 	SERIAL PRIMARY KEY,
+	FullName 	VARCHAR(90),
+	Sex 		VARCHAR(6),
+	Salary		INT(10),
+	Department 	VARCHAR(20),
+	FOREIGN KEY (Department) REFERENCES Departments(Department) ON DELETE SET NULL
 );
 
 
@@ -60,9 +64,9 @@ CREATE TABLE PatientJournals (
 	DiagnosisDate 		DATE,
 	DiagnosisTime 		TIME,
 	DiagnosedBy		 	BIGINT UNSIGNED,
-	primary key(CPR_no, Diagnosis, DiagnosisDate),
-	foreign key(CPR_no) references Patients(CPR_no) ON DELETE CASCADE,
-	foreign key(DiagnosedBy) references Doctors(DoctorID) ON DELETE SET NULL 
+	PRIMARY KEY(CPR_no, Diagnosis, DiagnosisDate),
+	FOREIGN KEY(CPR_no) REFERENCES Patients(CPR_no) ON DELETE CASCADE,
+	FOREIGN KEY(DiagnosedBy) REFERENCES Doctors(DoctorID) ON DELETE SET NULL 
 );
 
 
@@ -76,26 +80,26 @@ CREATE VIEW Doctors_In_HeartAndSkin AS
 SELECT DoctorID, FullName, Department FROM Doctors
 WHERE Department IN ('Cardiology', 'Neurology');
 
-Select * FROM Doctors_In_HeartAndSkin;
+SELECT * FROM Doctors_In_HeartAndSkin;
 
 
 CREATE VIEW Male_Doctors_Patients_With_FullNames AS
 SELECT 
 	Doctors.DoctorID,
-	Doctors.FullName as doctorName, 
+	Doctors.FullName AS doctorName, 
 	Patients.CPR_no,
-	Patients.FullName as patientName
+	Patients.FullName AS patientName
 FROM Doctors
 	INNER JOIN Patients
 	ON Patients.AssignedDoctor = Doctors.DoctorID
 	WHERE Doctors.Sex = 'Male'
-Order by Doctors.DoctorID;
-
+ORDER BY Doctors.DoctorID;
 
 SELECT * FROM Male_Doctors_Patients_With_FullNames;
 
+
 CREATE VIEW Number_of_Nurses_Per_Department AS
-SELECT Department, COUNT(*) as numOfNurses FROM Departments natural join Nurses group by Department;
+SELECT Department, COUNT(*) AS numOfNurses FROM Departments NATURAL JOIN Nurses GROUP BY Department;
 SELECT * FROM Number_of_Nurses_Per_Department;
 
 SELECT DoctorID, FullName FROM Doctors WHERE Sex = 'Male'; # For Comparison
@@ -119,7 +123,7 @@ INSERT INTO Departments VALUES
 
 
 # This syntax due to SERIAL as primary key
-INSERT INTO Doctors(FullName,Sex,Salary,Department,HeadOfDept) Values 
+INSERT INTO Doctors(FullName,Sex,Salary,Department,HeadOfDept) VALUES 
 	('Tobias Martinsen', 'Male', 60000*12, 'Sexual Health', 0),
 	('Peter Stensig', 'Male', 76000*12, 'Cardiology',1),
 	('Frederik Udby', 'Male', 50000*12, 'Fertility',1),
@@ -132,24 +136,24 @@ INSERT INTO Doctors(FullName,Sex,Salary,Department,HeadOfDept) Values
 	('Christina Sommer', 'Female', 48000*12, 'Radiology',1);
 
 
-INSERT INTO Nurses(FullName, Sex, Salary, Department) values
+INSERT INTO Nurses(FullName, Sex, Salary, Department) VALUES
 	('Danny DeVito', 'Male', 34000*12, 'Sexual Health'),
 	('Margot Robbie', 'Female', 38000*12, 'Cardiology'),
 	('Kasper Friis', 'Male', 36000*12, 'Fertility'),
-	('Sydney Sweeney', 'Female', 40000*12, 'Dermatology'),
-	('Angelina Joelie','Female', 40000*12, 'Cosmetic Surgery'),
+	('Sydney Sweeney', 'Female', 32000*12, 'Dermatology'),
+	('Angelina Joelie','Female', 31000*12, 'Cosmetic Surgery'),
 	('Albert Einstein','Male', 42000*12, 'Neurology'),
-	('Chadwick Boseman','Male', 40000*12, 'Oncology'),
-	('Martin Malmsten','Male', 40000*12, 'Pharmacy'),
-	('Corona Lockdown','Male', 40000*12, 'Pathology'),
+	('Chadwick Boseman','Male', 37000*12, 'Oncology'),
+	('Martin Malmsten','Male', 31500*12, 'Pharmacy'),
+	('Corona Lockdown','Male', 31000*12, 'Pathology'),
 	('Lady Gaga','Female', 42000*12, 'Cardiology'),
 	('Peter Parker','Male', 40000*12, 'Cardiology'),
-	('Miles Moralis','Male', 40000*12, NULL),
+	('Miles Moralis','Male', 29000*12, NULL),
 	('Bard Bard','Male', 40000*12, NULL),
 	('Bruce Banner','Male', 32000*12, 'Fertility');
 
 
-INSERT INTO Patients values
+INSERT INTO Patients VALUES
 	('260702-3671', 'Christian Vedel Pedersen', 22, 'Male', 'Nybrogaard kollegie 69a', 30220813, 's224810@student.dtu.dk', 5, 1),
 	('250701-4732', 'Katinka Spangtoft', 23, 'Female','P.O. Pedersen-kollegiet' ,61341289, 's224805@student.dtu.dk', 9, 2),
 	('240700-7418', 'Marilouise Arbøl', 24, 'Female', 'Kampsax kollegiet 521', 93990618,'s214401@student.dtu.dk', 10, 3),
@@ -168,7 +172,7 @@ INSERT INTO Patients values
 	('905000-9050', 'Joe Biden', 81,'Male', 'USA', 87654321, 'Biden@mail.com', 17, 10);
 	
 
-INSERT INTO PatientJournals values
+INSERT INTO PatientJournals VALUES
 	('260702-3671', 'Suffers from Bigusdikus', '2002-07-26', '02:54:23', 3),
 	('250701-4732', 'Langelandssyndrom stadie 2', '2001-07-25', '00:00:00', 2),
 	('240700-7418', 'Kaps (lethal)', '2022-09-02', '08:00:00', 1),

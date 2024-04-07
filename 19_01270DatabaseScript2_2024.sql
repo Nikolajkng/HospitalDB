@@ -9,10 +9,10 @@ USE Hospital;
 #########################################################################################################
 
 # Query using: JOIN & GROUP BY
-SELECT Patients.FullName , Doctors.FullName as AssignedDoctor, Doctors.Department 
+SELECT Patients.FullName , Doctors.FullName AS AssignedDoctor, Doctors.Department 
 FROM Patients Join Doctors
 WHERE Patients.AssignedDoctor = Doctors.DoctorID
-Group By Patients.FullName;
+GROUP BY Patients.FullName;
 
 
 # Query using set operation: UNION
@@ -33,19 +33,19 @@ IN (SELECT Diagnosis FROM PatientJournals
 #########################################################################################################
 
 # Function
-DROP Function IF EXISTS numOfPatients;
+DROP FUNCTION IF EXISTS numOfPatients;
 
-Delimiter //
+DELIMITER //
 
 CREATE FUNCTION numOfPatients (DoctorID int) RETURNS int
 BEGIN 
 	DECLARE vNumOfPatients int;
-	SELECT COUNT(*) into vNumOfPatients from Patients
+	SELECT COUNT(*) INTO vNumOfPatients FROM Patients
 	WHERE Patients.AssignedDoctor = DoctorID;
 	RETURN vNumOfPatients;
-END; //
+END //
 
-Delimiter ;
+DELIMITER ;
 
 SELECT FullName, numOfPatients(DoctorID) FROM Doctors;
 
@@ -53,20 +53,35 @@ SELECT FullName, numOfPatients(DoctorID) FROM Doctors;
 # Procedure
 DROP PROCEDURE IF EXISTS doctorsSalaryInDepartment;
 
-delimiter //
+DELIMITER //
 
-create procedure doctorsSalaryInDepartment (IN Department  VARCHAR(40), OUT salarySum int)
-begin
-	SELECT SUM(Doctors.Salary) into salarySum FROM Doctors WHERE Doctors.Department = Department ;
-end //
+CREATE PROCEDURE doctorsSalaryInDepartment (IN Department  VARCHAR(40), OUT salarySum INT)
+BEGIN
+	SELECT SUM(Doctors.Salary) INTO salarySum FROM Doctors WHERE Doctors.Department = Department ;
+END //
 
-delimiter ;
+DELIMITER ;
 
 CALL doctorsSalaryInDepartment('Cardiology', @sumOfSalareis);
 SELECT @sumOfSalareis;
 
 
 # Trigger
+DELIMITER //
+
+CREATE TRIGGER toHighSalary
+BEFORE INSERT ON Nurses FOR EACH ROW 
+BEGIN 
+	IF NEW.Salary > 45000*12 THEN SET NEW.Salary = 39000*12;
+	END IF;
+END//
+
+DELIMITER ;
+
+INSERT INTO Nurses(FullName, Sex,Salary, Department) VALUES
+	('Tes Tnurse', 'Male', 550000, 'Cardiology');
+	
+SELECT * FROM Nurses ORDER BY salary;
 
 
 ########################################################################################################
@@ -80,9 +95,10 @@ UPDATE Doctors SET Salary =
 	ELSE Salary * 1.03
 	END WHERE HeadOfDept = 1; 
 
+
 UPDATE Nurses SET Department = 
 	(SELECT Department FROM Number_of_Nurses_Per_Department 
-	WHERE numOfNurses = (SELECT MIN(numOfNurses) from Number_of_Nurses_Per_Department) LIMIT 1) 
+	WHERE numOfNurses = (SELECT MIN(numOfNurses) FROM Number_of_Nurses_Per_Department) LIMIT 1) 
 	WHERE (Nurses.Department IS NULL);
 
 
